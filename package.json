@@ -2,33 +2,61 @@
   "name": "oztest",
   "version": "0.0.1",
   "description": "DevOZ - Tech test",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon index.ts",
-    "test": "mocha --require ts-node/register ./src/**/*.spec.ts --exit"
-  },
-  "author": "",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "type": "module",
+  "author": "Mike Christian <c.christiancuri@gmail.com>",
   "license": "ISC",
+  "scripts": {
+    "start": "node --enable-source-maps --experimental-specifier-resolution=node --trace-warnings --no-warnings dist/main.js",
+    "dev": "nodemon",
+    "build": "yarn build:clean && tsc && yarn post-build",
+    "build:clean": "rimraf dist",
+    "post-build": "copyfiles -u 1 -e \"**/*.ts\" \"src/**/*\" dist",
+    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint ./src --ext .ts",
+    "check:typegoose": "tsd",
+    "prepare": "husky install"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "dependencies": {
-    "@faker-js/faker": "^8.1.0",
-    "@typegoose/typegoose": "^11.5.0",
-    "chai": "^4.3.10",
-    "express": "^4.18.2",
-    "mongoose": "^7.5.3"
+    "@fastify/cors": "^9.0.1",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/multipart": "^8.2.0",
+    "@typegoose/typegoose": "~12.3.0",
+    "copyfiles": "^2.4.1",
+    "fastify": "^4.26.2",
+    "fastify-decorators": "^3.15.1",
+    "mongoose": "~8.3.1",
+    "reflect-metadata": "^0.2.2",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "winston": "^3.13.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.6",
-    "@types/express": "^4.17.18",
-    "@types/mocha": "^10.0.2",
-    "@types/node": "^20.8.0",
-    "@types/reflect-metadata": "^0.1.0",
-    "@types/sinon": "^10.0.17",
-    "@types/supertest": "^2.0.13",
-    "mocha": "^10.2.0",
-    "nodemon": "^3.0.1",
-    "sinon": "^16.0.0",
-    "supertest": "^6.3.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@types/busboy": "^1.5.3",
+    "@types/node": "20.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
+    "esbuild": "^0.20.2",
+    "esbuild-node-tsc": "^2.0.5",
+    "eslint": "^8.36.0",
+    "eslint-plugin-import-helpers": "^1.3.1",
+    "eslint-plugin-require-extensions": "^0.1.3",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "husky": "^9.0.11",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "strip-comments": "^2.0.1",
+    "tsd": "^0.31.0"
   }
 }

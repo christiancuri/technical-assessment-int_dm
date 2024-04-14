@@ -1,0 +1,9 @@
+{
+  "watch": ["src"],
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "ext": "ts,json,gql",
+  "exec": "etsc --config=etsc.config.mjs && yarn post-build && yarn start",
+  "legacyWatch": true
+}

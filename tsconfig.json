@@ -1,13 +1,30 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2020",
-    "emitDecoratorMetadata": true,
+    "lib": ["ES2022"],
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "downlevelIteration": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "alwaysStrict": true,
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "sourceRoot": "./src",
+    "inlineSources": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveConstEnums": true
   },
-  "types": ["reflect-metadata", "mocha"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": ["src/**/*"]
 }
