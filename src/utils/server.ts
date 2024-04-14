@@ -3,6 +3,7 @@ import multipart from "@fastify/multipart";
 import Fastify from "fastify";
 import { bootstrap } from "fastify-decorators";
 
+import { ErrorHandler } from "./hooks/ErrorHandler/index.js";
 import { createLogger } from "./logger.js";
 
 const logger = createLogger(`Server`);
@@ -32,6 +33,7 @@ fastify
       );
     }
   })
+  .setErrorHandler(ErrorHandler)
   .register(bootstrap, {
     directory: new URL("../service", import.meta.url),
     mask: /\.controller\.js$/,

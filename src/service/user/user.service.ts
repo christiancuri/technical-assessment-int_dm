@@ -1,3 +1,4 @@
+import { HTTP400Error } from "../../utils/HttpErrors.js";
 import { User } from "../../utils/models/index.js";
 import type { IUser } from "../../utils/models/User/User.js";
 
@@ -17,6 +18,9 @@ export async function createUser({
   address,
   coordinates,
 }: Pick<IUser, "name" | "email" | "address" | "coordinates">) {
+  if ((!address && !coordinates) || (address && coordinates))
+    throw new HTTP400Error(`Fill only address or coordinates`);
+
   const user = await User.create({
     name,
     email,
