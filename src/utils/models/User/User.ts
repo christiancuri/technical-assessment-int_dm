@@ -4,6 +4,7 @@ import type { Base } from "@typegoose/typegoose/lib/defaultClasses";
 import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import { Types } from "mongoose";
 
+import { GeoLib } from "../../GeoLib.js";
 import { refOpts, schemaOptions } from "../../types/schemas.js";
 import { IRegion } from "../Region/Region.js";
 
@@ -11,10 +12,10 @@ import { IRegion } from "../Region/Region.js";
   const region = this as Omit<any, keyof IUser> & IUser;
 
   if (region.isModified("coordinates")) {
-    // region.address = await lib.getAddressFromCoordinates(region.coordinates);
+    region.address = await GeoLib.getAddressFromCoordinates(region.coordinates);
   } else if (region.isModified("address")) {
-    // const { lat, lng } = await lib.getCoordinatesFromAddress(region.address);
-    // region.coordinates = [lng, lat];
+    const { lat, lng } = await GeoLib.getCoordinatesFromAddress(region.address);
+    region.coordinates = [lng, lat];
   }
 
   next();
