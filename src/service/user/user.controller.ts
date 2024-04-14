@@ -32,10 +32,11 @@ export default class UserController {
         coordinates: yup
           .array(yup.number())
           .ensure()
-          .min(2)
+          .min(0)
           .max(2)
           .nullable()
-          .notRequired(),
+          .notRequired()
+          .default(null),
       })
       .validate(req.body);
 
@@ -57,16 +58,17 @@ export default class UserController {
 
     const { name, email, address, coordinates } = await yup
       .object({
-        name: yup.string().required().nonNullable(),
-        email: yup.string().email().required().nonNullable(),
+        name: yup.string().notRequired().nullable(),
+        email: yup.string().email().notRequired().nullable(),
         address: yup.string().notRequired().nullable(),
         coordinates: yup
           .array(yup.number())
           .ensure()
-          .min(2)
+          .min(0)
           .max(2)
           .nullable()
-          .notRequired(),
+          .notRequired()
+          .default(null),
       })
       .validate(req.body);
 
