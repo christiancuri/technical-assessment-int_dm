@@ -1,7 +1,7 @@
 import type { Ref } from "@typegoose/typegoose";
 import { prop, modelOptions, Severity, pre } from "@typegoose/typegoose";
-import type { Base } from "@typegoose/typegoose/lib/defaultClasses";
-import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
+import type { Base } from "@typegoose/typegoose/lib/defaultClasses.js";
+import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses.js";
 import { Types } from "mongoose";
 
 import { refOpts, schemaOptions } from "../../types/schemas.js";
