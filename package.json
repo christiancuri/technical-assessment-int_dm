@@ -9,7 +9,7 @@
   "author": "Mike Christian <c.christiancuri@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "start": "node --enable-source-maps --experimental-specifier-resolution=node --trace-warnings --no-warnings dist/main.js",
+    "start": "node --enable-source-maps --experimental-specifier-resolution=node --trace-warnings --no-warnings --env-file=.env dist/main.js",
     "dev": "nodemon",
     "build": "yarn build:clean && tsc && yarn post-build",
     "build:clean": "rimraf dist",

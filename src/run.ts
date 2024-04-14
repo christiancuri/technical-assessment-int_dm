@@ -1,4 +1,4 @@
 export function test() {
   // eslint-disable-next-line no-console
-  console.log("ping");
+  console.log(process.env);
 }

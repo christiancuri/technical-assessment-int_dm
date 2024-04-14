@@ -26,5 +26,5 @@
     "preserveConstEnums": true
   },
   "exclude": ["node_modules", "**/*.spec.ts"],
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/env.d.ts"]
 }
