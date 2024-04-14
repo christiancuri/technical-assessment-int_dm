@@ -14,7 +14,7 @@
     "noImplicitAny": false,
     "noImplicitThis": false,
     "alwaysStrict": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "sourceRoot": "./src",
