@@ -1,10 +1,10 @@
-import { test } from "./run.js";
 import { MongoDB } from "./utils/MongoDB.js";
 
 import "reflect-metadata";
 
 await Promise.all([MongoDB.connect(process.pid.toString())]);
 
-test();
+const { router } = await import("./router.js");
+router();
 
 export {};
