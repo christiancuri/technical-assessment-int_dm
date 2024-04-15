@@ -1,5 +1,12 @@
+import { createObjectCsvWriter } from "csv-writer";
+import type { FastifyReply } from "fastify";
 import type { FilterQuery } from "mongoose";
 import { Types } from "mongoose";
+import { randomUUID } from "node:crypto";
+import { createReadStream } from "node:fs";
+import { unlink } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { clone } from "../../utils/clone.js";
 import { HTTP404Error } from "../../utils/HttpErrors.js";
@@ -148,6 +155,99 @@ export async function getRegionsNearby({
   const regions = await Region.find(filterQuery).lean();
 
   return regions;
+}
+
+export async function exportRegions(reply: FastifyReply) {
+  const filePath = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    `../../../tmp/${randomUUID()}.csv`,
+  );
+  const writer = createObjectCsvWriter({
+    path: filePath,
+    header: [
+      {
+        id: "_id",
+        title: "ID",
+      },
+      {
+        id: "name",
+        title: "Name",
+      },
+      {
+        id: "lat",
+        title: "Lat",
+      },
+      {
+        id: "lng",
+        title: "Lng",
+      },
+      {
+        id: "user_id",
+        title: "Owner id",
+      },
+      {
+        id: "user_name",
+        title: "Owner name",
+      },
+      {
+        id: "user_email",
+        title: "Owner email",
+      },
+      {
+        id: "createdAt",
+        title: "Created At",
+      },
+      {
+        id: "updatedAt",
+        title: "Updated At",
+      },
+    ],
+  });
+
+  const cursor = Region.find().populate("user").cursor();
+
+  cursor.on(
+    "data",
+    async ({
+      _id,
+      name,
+      coordinates,
+      user,
+      createdAt,
+      updatedAt,
+    }: Populate<IRegion, "user">) => {
+      await writer.writeRecords([
+        {
+          _id,
+          name,
+          lat: coordinates[0],
+          lng: coordinates[1],
+          user_name: user.name,
+          user_email: user.email,
+          user_id: user._id,
+          createdAt: createdAt.toISOString(),
+          updatedAt: updatedAt.toISOString(),
+        },
+      ]);
+    },
+  );
+
+  return new Promise((resolve) => {
+    cursor.on("end", async () => {
+      const fileStream = createReadStream(filePath);
+      reply.header("Content-Type", "application/octet-stream");
+      reply.header(
+        "Content-Disposition",
+        "attachment; filename=regions-report.csv",
+      );
+
+      await reply.send(fileStream);
+
+      await unlink(filePath);
+
+      resolve(1);
+    });
+  });
 }
 
 export * as RegionService from "./region.service.js";

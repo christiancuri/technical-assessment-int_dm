@@ -1,4 +1,4 @@
-import type { FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { Controller, DELETE, GET, POST, PUT } from "fastify-decorators";
 
 import { yup, yupObjectId } from "../../utils/yup.js";
@@ -90,5 +90,10 @@ export default class UserController {
       .validate(req.params);
 
     return UserService.deleteUser(userId);
+  }
+
+  @GET("/export-users")
+  async exportUsers(_req: FastifyRequest, reply: FastifyReply) {
+    await UserService.exportUsers(reply);
   }
 }

@@ -1,4 +1,4 @@
-import type { FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { Controller, DELETE, GET, POST, PUT } from "fastify-decorators";
 
 import { yup, yupObjectId } from "../../utils/yup.js";
@@ -103,5 +103,10 @@ export default class RegionController {
       .validate(req.params);
 
     return RegionService.deleteRegion(regionId);
+  }
+
+  @GET("/export-regions")
+  async exportUsers(_req: FastifyRequest, reply: FastifyReply) {
+    await RegionService.exportRegions(reply);
   }
 }
