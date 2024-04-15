@@ -1,6 +1,21 @@
 version: "3"
 
 services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      NODE_ENV: production
+      MONGO_URI: mongodb://root:example@mongo/oz-tech-test?authSource=admin
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - mongo-network
   mongo:
     image: mongo
     environment:
